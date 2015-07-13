@@ -6,6 +6,8 @@ Note: Google allows making about 2500 geocoding calls per day for free, a few pe
 
 ## Install
 
+Installation depends on the [MarkLogic Package Manager](https://github.com/joemfb/mlpm):
+
 ```
 $ mlpm install ml-google-geocode --save
 $ mlpm deploy

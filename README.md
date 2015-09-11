@@ -18,7 +18,7 @@ $ mlpm deploy
 ```xquery
 xquery version "1.0-ml";
 
-import module namespace geo = "http://marklogic.com/geocoding";
+import module namespace geo = "http://marklogic.com/geocoding" at "/ext/mlpm_modules/ml-google-geocode/geocoding.xqy";
 
 geo:geocode("Central Station, Amsterdam, The Netherlands")/result[1]/geometry[1]/location[1],
 

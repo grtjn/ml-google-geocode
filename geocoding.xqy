@@ -6,7 +6,7 @@ declare default function namespace "http://www.w3.org/2005/xpath-functions";
 
 declare option xdmp:mapping "false";
 
-declare variable $memcache as map:map := map:map();
+declare private variable $memcache as map:map := map:map();
 
 declare function geo:geocode($address as xs:string) as element(GeocodeResponse)? {
   let $geocode := geo:getFromCache($address)

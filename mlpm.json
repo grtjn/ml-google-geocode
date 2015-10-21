@@ -1,6 +1,6 @@
 {
   "name": "ml-google-geocode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MarkLogic XQuery library for calling Google's geocoding endpoint",
   "repository": "https://github.com/grtjn/ml-google-geocode.git"
 }

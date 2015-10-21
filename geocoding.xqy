@@ -9,13 +9,20 @@ declare option xdmp:mapping "false";
 declare private variable $memcache as map:map := map:map();
 
 declare function geo:geocode($address as xs:string) as element(GeocodeResponse)? {
+  geo:geocode($address, ())
+};
+
+(: Look here for details to get a server key:
+    https://developers.google.com/maps/documentation/geocoding/get-api-key
+:)
+declare function geo:geocode($address as xs:string, $key as xs:string?) as element(GeocodeResponse)? {
   let $geocode := geo:getFromCache($address)
   return
   if ($geocode) then (
     xdmp:log(concat("Pulled ", $address, " from cache")),
     $geocode
   ) else
-    let $geocode := geo:get($address)
+    let $geocode := geo:get($address, $key)
     return
     if ($geocode) then (
       xdmp:log(concat("Retrieved ", $address, " from Google")),
@@ -34,13 +41,16 @@ declare function geo:persistCache() {
   )
 };
 
-declare private function geo:get($address as xs:string) as element(GeocodeResponse)? {
+declare private function geo:get($address as xs:string, $key as xs:string?) as element(GeocodeResponse)? {
   let $response :=
     try {
       let $response :=
         xdmp:http-get(concat(
-          "http://maps.googleapis.com/maps/api/geocode/xml?address=",
-          encode-for-uri($address)
+          "https://maps.googleapis.com/maps/api/geocode/xml?address=",
+          encode-for-uri($address),
+          if ($key) then
+            concat("&amp;key=", $key)
+          else ()
         ))[2]
       let $_ := xdmp:sleep(250) (: rate-limited to 5 per sec, 2500 per day.. :)
       return
